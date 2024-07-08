@@ -1,0 +1,84 @@
+{% extends './base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<h3>Bienvenido al BACKEND de Pet Shop Gruopo 13, {{ current_user.fullname }}</h3>
+
+<h1 class="text-center mt-5 mb-5 text-primary">TPF  Python-Flask-MySQL  GRUPO 13</h1>
+
+    <div class="container">
+        <div class="card shadow">
+            <div class="card-body">
+                
+
+                <!-- Tabla -->
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Correo</th>
+                            <th scope="col">Pregunta</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                
+                <tbody>
+                    {% for d in data %}
+                        <tr>
+                            <td>{{d.id}}</td>
+                            <td>{{d.nombre}}</td>
+                            <td>{{d.correo}}</td>
+                            <td>{{d.pregunta}}</td>
+                            <td><button class="btn btn-primary btn-sm" id="btn-edit2{{d.id}}" data-bs-toggle="modal" data-bs-target="#modal{{d.id}}">Edit</button></td>
+                            <td><a href="{{url_for('delete2', id=d.id)}}" class="btn btn-danger btn-sm">Delete</a></td>
+                        </tr>
+
+                        <!-- modal -->
+
+                        <div class="modal fade" id="modal{{d.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">{{d.nombre}}</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/edit2/{{d.id}}" method="post">
+                                        <label>Nombre</label>
+                                        <input type="text" class="form-control mb-3" name="nombre" value="{{d.nombre}}">
+                                        <label>Correo</label>
+                                        <input type="text" class="form-control mb-3" name="email" value="{{d.correo}}">
+                                        <label>Pregunta</label>
+                                        <input type="text" class="form-control mb-3" name="pregunta" value="{{d.pregunta}}">
+                                  
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+
+
+
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        
+            </div>
+        </div>
+    </div>
+
+
+<a class="btn btn-secondary" href="{{ url_for('protected') }}">Admin</a>
+<a class="btn btn-secondary" href="{{ url_for('logout') }}">Logout</a>
+{% endblock %}
